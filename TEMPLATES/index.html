@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✈️ Flight Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+
+  <div class="sidebar">
+    <h2>✈️ FlightDesk</h2>
+    <a href="/"> Dashboard</a>
+    <a href="/search_delay"> Search Delay</a>
+    <a href="/add_flight_page"> + Add Flight</a>
+    <a href="/show_flights_page"> Show Flights</a>
+  </div>
+
+  <!-- <div class="topbar">
+    <input type="text" placeholder="Search anything..." />
+    <button>Search</button>
+  </div> -->
+
+<div class="main-content">
+    {% if page == "dashboard" %}
+      <h1>Welcome to Flight Desk ✈️</h1>
+      <p>Use the sidebar to navigate.</p>
+      <p>MADE BY : Labhanshu Sahu (EN23CS301554) </p>
+      <p>Kunal Rathore (EN23CS301545) </p>
+
+    {% elif page == "search" %}
+      <div class="container">
+        <h1>🔍 Flight Delay Predictor</h1>
+        <form action="/search_delay" method="post">
+          <label>Flight Number:  <span class="example">(e.g., 6E4991)</span></label>
+          <input type="text" name="flight_number">
+          <label>Origin City: <span class="example">(e.g., DEL)</span></label>
+          <input type="text" name="origin">
+          <label>Destination City: <span class="example">(e.g., BOM)</span></label>
+          <input type="text" name="dest">
+          <label>Distance (km): <span class="example">(e.g., 1200)</span></label>
+          <input type="number" name="distance">
+          <label>Weather: <span class="example">(e.g., Clear / Rain / Fog)</span></label>
+          <input type="text" name="weather">
+          <label>Airline: <span class="example">(e.g., Indigo)</span></label>
+          <input type="text" name="airline">
+          <button type="submit">Search Delay</button>
+        </form>
+        {% if result %}
+          <p><strong>Delay:</strong> {{ result }}</p>
+        {% endif %}
+      </div>
+
+    {% elif page == "add_flight" %}
+      <div class="container">
+        <h1>➕ Add Flight</h1>
+        <form id="addFlightForm">
+          <input type="text" name="flight_no" placeholder="Flight No (e.g., 6E203)" required>
+          <input type="text" name="airline" placeholder="Airline (e.g., Indigo)" required>
+          <input type="text" name="origin" placeholder="Origin (e.g., DEL)" required>
+          <input type="text" name="dest" placeholder="Destination (e.g., BOM)" required>
+          <input type="number" name="distance" placeholder="Distance (km)" required>
+          <input type="text" name="weather" placeholder="Weather (e.g., Clear)" required>
+          <input type="text" name="departure_time" placeholder="Departure Time (e.g., 09:45)" required>
+          <input type="number" name="delay" placeholder="Delay (minutes)" required>
+          <button type="submit">Add Flight</button>
+        </form>
+        <p id="addFlightMsg"></p>
+      </div>
+
+    {% elif page == "show_flights" %}
+      <div class="table-container">
+        <h1>📋 Added Flights</h1>
+        <table class="glass-table">
+          <thead>
+            <tr>
+              <th>Flight No</th>
+              <th>Airline</th>
+              <th>Origin</th>
+              <th>Destination</th>
+              <th>Distance</th>
+              <th>Weather</th>
+              <th>Departure</th>
+              <th>Delay</th>
+            </tr>
+          </thead>
+          <tbody id="flightTable"></tbody>
+        </table>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if message %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      Swal.fire({
+        title: "{{ ' Success!' if status == 'success' else ' Error!' }}",
+        text: "{{ message }}",
+        icon: "{{ status }}",
+        confirmButtonText: "OK",
+        confirmButtonColor: "{{ '#2196f3' if status == 'success' else '#d32f2f' }}"
+      });
+    });
+  </script>
+  {% endif %}
+
+  <script>
+    // ADD FLIGHT
+    const addForm = document.getElementById('addFlightForm');
+    if (addForm) {
+      addForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(addForm);
+        const res = await fetch('/add_flight', { method: 'POST', body: formData });
+        const data = await res.json();
+        document.getElementById('addFlightMsg').innerText = data.message;
+      };
+    }
+
+    // SHOW FLIGHTS
+    async function loadFlights() {
+      const table = document.getElementById('flightTable');
+      if (!table) return;
+      const res = await fetch('/show_flights');
+      const flights = await res.json();
+      table.innerHTML = "";
+      flights.forEach(f => {
+        table.innerHTML += `<tr>
+          <td>${f.FlightNo}</td>
+          <td>${f.Airline}</td>
+          <td>${f.Origin}</td>
+          <td>${f.Dest}</td>
+          <td>${f.Distance}</td>
+          <td>${f.Weather}</td>
+          <td>${f.DepartureTime}</td>
+          <td>${f.DelayMinutes}</td>
+        </tr>`;
+      });
+    }
+    loadFlights();
+  </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+   background: url("https://upgradedpoints.com/wp-content/uploads/2018/10/Airplane-landing-on-runway.jpeg")center/cover no-repeat;
+  /* color: white; */ 
+}
+
+.sidebar {
+  width: 240px;
+  background: rgba(0,0,0,0.7);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+}
+
+.sidebar h2 {
+  color: #00bfff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: #00bfff;
+}
+
+/* .topbar {
+  position: fixed;
+  left: 240px;
+  top: 0;
+  right: 0;
+  height: 60px;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 30px;
+  backdrop-filter: blur(8px);
+}
+
+.topbar input {
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  margin-right: 10px;
+}
+
+.topbar button {
+  background: #00bfff;
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+} */
+
+.main-content {
+  margin-left: 140px; /* should match sidebar width */
+  margin-top: 60px; /* should match topbar height */
+  padding: 20px;
+  width: calc(100% - 240px);
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.container {
+  backdrop-filter: blur(12px) saturate(150%);
+  background-color: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 30px 20px;
+  border-radius: 20px;
+  color: #fff;
+  max-width: 400px;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 10px;
+}
+
+button {
+  background: #00bfff;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #0090cc;
+}
+
+.table-container {
+  backdrop-filter: blur(12px) saturate(150%);
+  background: rgba(255,255,255,0.15);
+  padding: 60px;
+  border-radius: 15px;
+  color: white;
+  max-width: 1000px;
+  /* margin: 20px auto; */
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.glass-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.glass-table th, .glass-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+.glass-table tr:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.example {
+  font-size: 12px;
+  color: blueviolet;
+  margin-left: 5px;
+}
